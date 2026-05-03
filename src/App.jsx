@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Moon, Sun, Linkedin, Mail, MapPin, 
   ChevronRight, GraduationCap, 
-  Briefcase, Rocket, Cpu, Award, Send 
+  Briefcase, Rocket, Cpu, Award, Send,
+  Download, Phone
 } from 'lucide-react';
 
 // Interactive Constellation Background for Light Theme
@@ -280,8 +281,13 @@ function App() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
             Venu Jangam
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-light mb-10 leading-relaxed whitespace-nowrap overflow-hidden text-ellipsis px-4 w-full max-w-full">
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-light mb-6 leading-relaxed whitespace-nowrap overflow-hidden text-ellipsis px-4 w-full max-w-full">
             Mechanical & Space Engineer <span className="text-blue-500 font-normal">|</span> Space Resources & Space Technologies
+          </p>
+          <p className="max-w-3xl mx-auto text-base md:text-lg text-gray-600 dark:text-gray-400 mb-10 leading-relaxed px-4">
+            I am Venu Jangam, a masters student at International Space University, France with a background in Mechanical Engineering. I am also an engineer at Space Copy, I am interested about the mechanical complexities of space exploration, specifically focusing on how we can identify, extract, and utilize space resources to grow the human presence in the cosmos.<br/><br/>
+            I am always eager to connect with explorers, engineers, and visionaries who are pushing the boundaries of what is possible from Earth, to the Moon, and beyond.<br/><br/>
+            Looking forward to connecting with you :)
           </p>
         </motion.div>
 
@@ -298,6 +304,14 @@ function App() {
           <a href="mailto:venujangam.fr@gmail.com" className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-space-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
             <Mail size={20} className="text-gray-600 dark:text-gray-400" />
             <span className="font-medium">Email Me</span>
+          </a>
+          <a href="./Venu_Jangam.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-space-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+            <Download size={20} className="text-gray-600 dark:text-gray-400" />
+            <span className="font-medium">Download CV</span>
+          </a>
+          <a href="tel:+33745544739" className="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-space-800 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+            <Phone size={20} className="text-gray-600 dark:text-gray-400" />
+            <span className="font-medium">Call Me</span>
           </a>
         </motion.div>
       </header>
@@ -320,8 +334,8 @@ function App() {
               <div className="text-blue-500 font-mono text-sm mb-2">09/2025 - Present</div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xl font-bold">Masters of Space Studies</h3>
-                <a href="https://www.isunet.edu/" target="_blank" rel="noopener noreferrer" className="shrink-0 ml-4 hover:scale-110 transition-transform">
-                  <img src="./LOGO_ISU_Darkblue.png" alt="ISU Logo" className="w-10 h-10 rounded-full bg-white object-contain p-1 border border-gray-200" onError={(e) => e.target.style.display='none'} />
+                <a href="https://www.isunet.edu/" target="_blank" rel="noopener noreferrer" className="shrink-0 ml-4 hover:scale-110 transition-transform bg-white rounded-lg p-1 border border-gray-100">
+                  <img src="./LOGO_ISU_Darkblue.png" alt="ISU Logo" className="w-auto h-8 object-contain" onError={(e) => e.target.style.display='none'} />
                 </a>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">Space Engineering & Applications</p>
@@ -338,8 +352,8 @@ function App() {
               <div className="text-blue-500 font-mono text-sm mb-2">06/2021 - 06/2025</div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xl font-bold">Bachelor of Engineering</h3>
-                <a href="https://www.gcoeara.ac.in/" target="_blank" rel="noopener noreferrer" className="shrink-0 ml-4 hover:scale-110 transition-transform">
-                  <img src="./gcoeara_logo.jpg" alt="GCOEARA Logo" className="w-10 h-10 rounded-full bg-white object-contain p-1 border border-gray-200" onError={(e) => e.target.style.display='none'} />
+                <a href="https://www.gcoeara.ac.in/" target="_blank" rel="noopener noreferrer" className="shrink-0 ml-4 hover:scale-110 transition-transform bg-white rounded-full p-1 border border-gray-100">
+                  <img src="./gcoeara_logo.jpg" alt="GCOEARA Logo" className="w-8 h-8 rounded-full object-contain" onError={(e) => e.target.style.display='none'} />
                 </a>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">Mechanical Engineering</p>
@@ -392,8 +406,8 @@ function App() {
                       {project.org && <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{project.org}</p>}
                       
                       {project.image && (
-                        <div className="w-full max-h-72 mb-4 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-space-900/50 flex items-center justify-center p-2">
-                          <img src={project.image} alt={project.title} className="max-w-full max-h-full object-contain rounded-lg" onError={(e) => e.target.style.display = 'none'} />
+                        <div className="w-full h-56 mb-4 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-space-900/50 flex items-center justify-center p-2">
+                          <img src={project.image} alt={project.title} className="w-full h-full object-contain rounded-lg" onError={(e) => e.target.style.display = 'none'} />
                         </div>
                       )}
                       
