@@ -8,11 +8,17 @@
   }
 }
 
-.moon-bg {
-  /* Subtle light theme realistic moon background effect */
-  background-image: 
-    radial-gradient(circle at 80% 20%, rgba(200, 200, 210, 0.4) 0%, rgba(249, 250, 251, 0) 50%),
-    url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+/* Background classes for categories */
+.bg-space-sketch {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' opacity='0.5'%3E%3Cpath fill='none' stroke='currentColor' stroke-width='2' d='M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z'/%3E%3Ccircle cx='70' cy='30' r='5' fill='none' stroke='currentColor' stroke-width='1'/%3E%3Cpath fill='none' stroke='currentColor' stroke-width='1' stroke-dasharray='4 4' d='M20 80 Q 50 100 80 80'/%3E%3C/svg%3E");
+}
+
+.bg-rover-sketch {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' opacity='0.5'%3E%3Crect x='30' y='40' width='40' height='20' fill='none' stroke='currentColor' stroke-width='2'/%3E%3Ccircle cx='30' cy='65' r='8' fill='none' stroke='currentColor' stroke-width='2'/%3E%3Ccircle cx='50' cy='65' r='8' fill='none' stroke='currentColor' stroke-width='2'/%3E%3Ccircle cx='70' cy='65' r='8' fill='none' stroke='currentColor' stroke-width='2'/%3E%3Cpath fill='none' stroke='currentColor' stroke-width='2' d='M40 40 L40 20 L50 20'/%3E%3Ccircle cx='50' cy='20' r='4' fill='currentColor'/%3E%3C/svg%3E");
+}
+
+.bg-engineering-sketch {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' opacity='0.5'%3E%3Cpath fill='none' stroke='currentColor' stroke-width='2' d='M20 20 L80 20 L80 80 L20 80 Z'/%3E%3Cpath fill='none' stroke='currentColor' stroke-width='1' stroke-dasharray='2 2' d='M20 20 L80 80'/%3E%3Cpath fill='none' stroke='currentColor' stroke-width='1' stroke-dasharray='2 2' d='M80 20 L20 80'/%3E%3Ccircle cx='50' cy='50' r='15' fill='none' stroke='currentColor' stroke-width='2'/%3E%3Cpath fill='none' stroke='currentColor' stroke-width='2' d='M50 35 L50 20 M50 65 L50 80 M35 50 L20 50 M65 50 L80 50'/%3E%3C/svg%3E");
 }
 
 .stars-bg {

@@ -1,14 +1,125 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Moon, Sun, Github, Linkedin, Mail, MapPin, 
-  ChevronRight, ExternalLink, GraduationCap, 
+  Moon, Sun, Linkedin, Mail, MapPin, 
+  ChevronRight, GraduationCap, 
   Briefcase, Rocket, Cpu, Award, Send 
 } from 'lucide-react';
 
+// Interactive Constellation Background for Light Theme
+const ConstellationBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let particles = [];
+    let mouse = { x: null, y: null };
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > canvas.width) this.x = 0;
+        else if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        else if (this.y < 0) this.y = canvas.height;
+
+        // Interaction with mouse
+        if (mouse.x && mouse.y) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 100) {
+            this.x -= dx / 20;
+            this.y -= dy / 20;
+          }
+        }
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 100; i++) {
+      particles.push(new Particle());
+    }
+
+    const connect = () => {
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a; b < particles.length; b++) {
+          let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x))
+            + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+          if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+            let opacityValue = 1 - (distance / 20000);
+            ctx.strokeStyle = `rgba(0, 0, 0, ${opacityValue * 0.15})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+      connect();
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    const handleMouseMove = (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    };
+    const handleMouseLeave = () => {
+      mouse.x = null;
+      mouse.y = null;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />;
+};
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [activeTab, setActiveTab] = useState('space');
 
   useEffect(() => {
     if (darkMode) {
@@ -19,9 +130,24 @@ function App() {
   }, [darkMode]);
 
   const categories = [
-    { id: 'space', label: 'Space & ISRU', icon: <Rocket size={18} /> },
-    { id: 'robotics', label: 'Robotics', icon: <Cpu size={18} /> },
-    { id: 'leadership', label: 'Engineering & Leadership', icon: <Award size={18} /> },
+    { 
+      id: 'space', 
+      label: 'Space & ISRU', 
+      icon: <Rocket size={24} />,
+      bgClass: 'bg-space-sketch'
+    },
+    { 
+      id: 'robotics', 
+      label: 'Robotics', 
+      icon: <Cpu size={24} />,
+      bgClass: 'bg-rover-sketch'
+    },
+    { 
+      id: 'engineering', 
+      label: 'Engineering', 
+      icon: <Award size={24} />,
+      bgClass: 'bg-engineering-sketch'
+    },
   ];
 
   const projects = {
@@ -31,7 +157,7 @@ function App() {
         org: "Space Copy, Canada",
         period: "10/2024 - Present",
         description: "Systems Engineering for ISRU technologies for Additive Manufacturing on the Moon and extreme environments. Progressed from Intern to Mechanical Engineer to Jr. Systems Engineer.",
-        link: "https://linkedin.com/in/Linkedin-Venu-Jangam"
+        link: "https://www.linkedin.com/in/venu-jangam"
       },
       {
         title: "Lead Mechanical Engineer",
@@ -62,10 +188,10 @@ function App() {
         org: "Robotics Research Lab (RRL), India",
         period: "04/2022 - 06/2025",
         description: "Design, prototyping, and manufacturing of ready-to-function parts for human-sized robots.",
-        link: "#"
+        link: "https://rrlgcoeara.in/"
       }
     ],
-    leadership: [
+    engineering: [
       {
         title: "Project Student",
         org: "PQM Lab, IUCAA",
@@ -78,17 +204,19 @@ function App() {
         org: "Team Astrophile, GCOEARA",
         period: "04/2023 - 06/2025",
         description: "Led a team of engineering students in designing and competing in various aerospace and astronomy competitions.",
-        link: "#"
+        link: "https://www.linkedin.com/in/venu-jangam"
       }
     ]
   };
 
   return (
-    <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-500 ${darkMode ? 'dark text-white bg-space-900' : 'text-gray-900 bg-gray-50 moon-bg'}`}>
+    <div className={`min-h-screen relative overflow-x-hidden font-sans transition-colors duration-500 ${darkMode ? 'dark text-white bg-space-900' : 'text-gray-900 bg-gray-50'}`}>
       
       {/* Background Elements */}
-      {darkMode && (
+      {darkMode ? (
         <div className="fixed inset-0 z-0 stars-bg opacity-40 pointer-events-none"></div>
+      ) : (
+        <ConstellationBackground />
       )}
       
       <div className="fixed inset-0 z-0 bg-gradient-to-b from-transparent to-gray-100/50 dark:to-space-900/50 pointer-events-none"></div>
@@ -127,12 +255,21 @@ function App() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="w-44 h-44 md:w-56 md:h-56 rounded-3xl bg-white dark:bg-space-800 border-4 border-white dark:border-gray-700 shadow-2xl overflow-hidden mb-10 rotate-3 hover:rotate-0 transition-transform duration-500 flex items-center justify-center group"
+          className="w-44 h-44 md:w-56 md:h-56 rounded-full bg-white dark:bg-space-800 border-4 border-white dark:border-gray-700 shadow-2xl overflow-hidden mb-10 transition-transform duration-500 flex items-center justify-center group"
         >
-          {/* Replace with <img src="/Profile Venu.png" ... /> */}
-          <div className="text-center p-6 text-gray-400 group-hover:scale-110 transition-transform">
+          <img 
+            src="/Profile Venu.png" 
+            alt="Venu Jangam" 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            onError={(e) => {
+              e.target.onerror = null; 
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+          <div className="hidden w-full h-full flex-col items-center justify-center text-gray-400 bg-gray-100 dark:bg-space-800">
              <Rocket size={40} className="mx-auto mb-2 text-blue-500" />
-             <p className="text-xs font-mono">Profile Venu.png</p>
+             <p className="text-xs font-mono px-4">Upload Profile Venu.png to repo</p>
           </div>
         </motion.div>
 
@@ -144,8 +281,8 @@ function App() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
             Venu Jangam
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl font-light mb-10 leading-relaxed">
-            Mechanical & Systems Engineer <span className="text-blue-500 font-normal">|</span> Space Tech & Robotics
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl font-light mb-10 leading-relaxed">
+            Mechanical & Space Engineer <span className="text-blue-500 font-normal">|</span> Space Resources & Space Technologies
           </p>
         </motion.div>
 
@@ -155,7 +292,7 @@ function App() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-wrap justify-center gap-4"
         >
-          <a href="https://linkedin.com/in/Linkedin-Venu-Jangam" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all hover:-translate-y-1">
+          <a href="https://www.linkedin.com/in/venu-jangam" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all hover:-translate-y-1">
             <Linkedin size={20} />
             <span className="font-medium">LinkedIn</span>
           </a>
@@ -206,63 +343,64 @@ function App() {
         </div>
       </section>
 
-      {/* Experience & Projects Section */}
+      {/* Experience & Projects Section - Vertical Layout */}
       <section id="experience" className="relative z-10 py-24">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-500">
-                <Briefcase size={32} />
-              </div>
-              <h2 className="text-4xl font-bold">Experience & Projects</h2>
+          <div className="flex items-center gap-4 mb-16">
+            <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-500">
+              <Briefcase size={32} />
             </div>
-
-            <div className="flex bg-gray-100 dark:bg-space-800 p-1 rounded-2xl">
-              {categories.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveTab(cat.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                    activeTab === cat.id 
-                    ? 'bg-white dark:bg-space-700 shadow-sm text-blue-500' 
-                    : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                  }`}
-                >
-                  {cat.icon}
-                  <span className="hidden sm:inline">{cat.label}</span>
-                </button>
-              ))}
-            </div>
+            <h2 className="text-4xl font-bold">Experience & Projects</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatePresence mode="wait">
-              {projects[activeTab].map((project, idx) => (
-                <motion.div
-                  key={`${activeTab}-${idx}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  className="group relative p-8 rounded-3xl bg-white dark:bg-space-800 border border-gray-100 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all"
-                >
-                  <div className="text-xs font-mono text-blue-500 mb-3">{project.period}</div>
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors">{project.title}</h3>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{project.org}</p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-8">
-                    {project.description}
-                  </p>
-                  
-                  <a 
-                    href={project.link} 
-                    className="absolute bottom-8 left-8 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-500 hover:gap-3 transition-all"
-                  >
-                    {project.isGallery ? 'View Gallery' : 'Read more on LinkedIn'}
-                    <ChevronRight size={14} />
-                  </a>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+          <div className="space-y-24">
+            {categories.map((category) => (
+              <div key={category.id} className="relative">
+                {/* Category Header */}
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="p-2 rounded-lg bg-gray-100 dark:bg-space-800 text-gray-700 dark:text-gray-300">
+                    {category.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold">{category.label}</h3>
+                </div>
+
+                {/* Background Sketch Container */}
+                <div className={`absolute inset-0 z-0 opacity-5 dark:opacity-10 pointer-events-none ${category.bgClass} bg-no-repeat bg-center bg-cover rounded-3xl`}></div>
+
+                {/* Projects Grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+                  {projects[category.id].map((project, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: idx * 0.1 }}
+                      className="group relative p-8 rounded-3xl bg-white/80 dark:bg-space-800/80 backdrop-blur-md border border-gray-100/50 dark:border-gray-700/50 shadow-xl hover:shadow-2xl transition-all"
+                    >
+                      <div className="text-xs font-mono text-blue-500 mb-3">{project.period}</div>
+                      <h4 className="text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors">{project.title}</h4>
+                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{project.org}</p>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-12">
+                        {project.description}
+                      </p>
+                      
+                      {project.link !== "#" && (
+                        <a 
+                          href={project.link} 
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute bottom-8 left-8 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-500 hover:gap-3 transition-all"
+                        >
+                          {project.isGallery ? 'View Gallery' : 'View Link'}
+                          <ChevronRight size={14} />
+                        </a>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -274,11 +412,6 @@ function App() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-400/20 rounded-full -ml-32 -mb-32 blur-3xl"></div>
             
-            <div className="relative z-10 text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Let's build the future together</h2>
-              <p className="text-blue-100">Have a project or opportunity? Send me a message below.</p>
-            </div>
-
             <form 
               action="mailto:venujangam.fr@gmail.com" 
               method="post" 
@@ -321,7 +454,7 @@ function App() {
       </section>
 
       <footer className="relative z-10 py-12 text-center text-sm text-gray-500 border-t border-gray-200/50 dark:border-gray-800/50">
-        <p>© {new Date().getFullYear()} Venu Jangam. Built with React & Space Tech.</p>
+        <p>© {new Date().getFullYear()} Venu Jangam. Built with React.</p>
       </footer>
     </div>
   );
