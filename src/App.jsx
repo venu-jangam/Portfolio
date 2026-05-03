@@ -258,7 +258,7 @@ function App() {
           className="w-44 h-44 md:w-56 md:h-56 rounded-full bg-white dark:bg-space-800 border-4 border-white dark:border-gray-700 shadow-2xl overflow-hidden mb-10 transition-transform duration-500 flex items-center justify-center group"
         >
           <img 
-            src="/Profile Venu.png" 
+            src="/Venu.jpeg" 
             alt="Venu Jangam" 
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             onError={(e) => {
