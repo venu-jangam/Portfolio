@@ -269,7 +269,7 @@ function App() {
           />
           <div className="hidden w-full h-full flex-col items-center justify-center text-gray-400 bg-gray-100 dark:bg-space-800">
              <Rocket size={40} className="mx-auto mb-2 text-blue-500" />
-             <p className="text-xs font-mono px-4">Upload Profile Venu.png to repo</p>
+             <p className="text-xs font-mono px-4">Upload Venu.jpeg </p>
           </div>
         </motion.div>
 
