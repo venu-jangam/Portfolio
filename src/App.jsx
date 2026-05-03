@@ -167,6 +167,7 @@ function App() {
         period: "12/2025 - Present",
         description: "Study of lunar regolith & DEM analysis on lunar regolith simulant to study behavioral properties for future missions.",
         link: "#",
+        image: "./lunar_regolith.png",
         skills: "DEM simulations, EDEM software"
       }
     ],
@@ -176,7 +177,8 @@ function App() {
         org: "International Space University Team Project, France",
         period: "10/2025 - Present",
         description: "Design, prototyping & analysis of Rover, Drone, Entry Descent & Landing Vehicle, Payload Deployment mechanisms for Mars mission.",
-        link: "#"
+        link: "#",
+        image: "./Mission_Patch.png"
       },
       {
         title: "Researcher - Robotics",
@@ -319,7 +321,7 @@ function App() {
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xl font-bold">Masters of Space Studies</h3>
                 <a href="https://www.isunet.edu/" target="_blank" rel="noopener noreferrer" className="shrink-0 ml-4 hover:scale-110 transition-transform">
-                  <img src="https://logo.clearbit.com/isunet.edu" alt="ISU Logo" className="w-10 h-10 rounded-full bg-white object-contain p-1 border border-gray-200" onError={(e) => e.target.style.display='none'} />
+                  <img src="./LOGO_ISU_Darkblue.png" alt="ISU Logo" className="w-10 h-10 rounded-full bg-white object-contain p-1 border border-gray-200" onError={(e) => e.target.style.display='none'} />
                 </a>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">Space Engineering & Applications</p>
@@ -337,7 +339,7 @@ function App() {
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xl font-bold">Bachelor of Engineering</h3>
                 <a href="https://www.gcoeara.ac.in/" target="_blank" rel="noopener noreferrer" className="shrink-0 ml-4 hover:scale-110 transition-transform">
-                  <img src="https://logo.clearbit.com/gcoeara.ac.in" alt="GCOEARA Logo" className="w-10 h-10 rounded-full bg-white object-contain p-1 border border-gray-200" onError={(e) => e.target.style.display='none'} />
+                  <img src="./gcoeara_logo.jpg" alt="GCOEARA Logo" className="w-10 h-10 rounded-full bg-white object-contain p-1 border border-gray-200" onError={(e) => e.target.style.display='none'} />
                 </a>
               </div>
               <p className="text-gray-600 dark:text-gray-400 mb-4">Mechanical Engineering</p>
@@ -390,8 +392,8 @@ function App() {
                       {project.org && <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">{project.org}</p>}
                       
                       {project.image && (
-                        <div className="w-full h-48 mb-4 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-gray-100 dark:bg-space-900">
-                          <img src={project.image} alt={project.title} className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+                        <div className="w-full max-h-72 mb-4 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-space-900/50 flex items-center justify-center p-2">
+                          <img src={project.image} alt={project.title} className="max-w-full max-h-full object-contain rounded-lg" onError={(e) => e.target.style.display = 'none'} />
                         </div>
                       )}
                       
